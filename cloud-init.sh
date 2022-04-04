@@ -24,6 +24,9 @@ sudo mv deck /usr/local/bin
 sudo chown root:kong /usr/local/bin/deck
 sudo chmod 755 /usr/local/bin/deck
 
+# Install Kong dependencies
+sudo apt install libc-dev-bin linux-libc-dev libcrypt-dev libc-dev zlib1g-dev
+
 # Install Kong
 echo "Installing Kong"
 EE_LICENSE=$(aws_get_parameter ee/license)
