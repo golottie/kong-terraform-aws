@@ -150,7 +150,7 @@ exec 2>&1
 
 ulimit -n 65536
 sudo -u kong kong prepare
-exec chpst -u kong /usr/local/openresty/nginx/sbin/nginx -p /usr/local/kong -c nginx.conf
+exec chpst -u kong kong start
 EOF
 
 cat <<'EOF' > /etc/sv/kong/log/run
