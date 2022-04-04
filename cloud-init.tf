@@ -8,13 +8,10 @@ data "template_file" "shell-script" {
   vars = {
     DB_USER        = replace(format("%s_%s", var.service, var.environment), "-", "_")
     DOWNLOAD_URL   = var.download_url
-    EE_PKG         = var.ee_pkg
     PARAMETER_PATH = format("/%s/%s", var.service, var.environment)
     REGION         = data.aws_region.current.name
     VPC_CIDR_BLOCK = data.aws_vpc.vpc.cidr_block
     DECK_VERSION   = var.deck_version
-    MANAGER_HOST   = local.manager_host
-    PORTAL_HOST    = local.portal_host
     SESSION_SECRET = random_string.session_secret.result
   }
 }
