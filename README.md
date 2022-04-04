@@ -7,7 +7,7 @@ all setups. Please fork the repo or copy over code from here
 
 
 [Kong API Gateway](https://konghq.com/) is an API gateway microservices
-management layer. Both Kong and Enterprise Edition are supported.
+management layer. Only Kong Open Source Edition is supported.
 
 By default, the following resources will be provisioned:
 
@@ -18,10 +18,6 @@ By default, the following resources will be provisioned:
 - An internal load balancer (HTTP and HTTPS)
   - HTTP:80 - Kong Proxy
   - HTTPS:443 - Kong Proxy
-  - HTTPS:8444 - Kong Admin API (Enterprise Edition only)
-  - HTTPS:8445 - Kong Manager (Enterprise Edition only)
-  - HTTPS:8446 - Kong Dev Portal GUI (Enterprise Edition only)
-  - HTTPS:8447 - Kong Dev Portal API (Enterprise Edition only)
 - Security groups granting least privilege access to resources
 - An IAM instance profile for access to Kong specific SSM Parameter Store 
   metadata and secrets
@@ -52,22 +48,6 @@ Prerequisites:
 
 <table>
 <tr><th>Name</th><th>Description</th><th>Type</th><th>Default</th> <th>Required</th></tr>
-<tr>
-<td>admin_cidr_blocks</td>
-<td>Access to Kong Admin API (Enterprise Edition only)</td>
-<td>
-
-`list(string)`</td>
-<td>
-
-```json
-[
-  "0.0.0.0/0"
-]
-```
-</td>
-<td>no</td>
-</tr>
 <tr>
 <td>asg_desired_capacity</td>
 <td>The number of instances that should be running in the group</td>
@@ -129,8 +109,8 @@ Prerequisites:
 <td>no</td>
 </tr>
 <tr>
-<td>ce_pkg</td>
-<td>Filename of the Community Edition package</td>
+<td>download_url</td>
+<td>Download URL of the Community Edition package</td>
 <td>
 
 `string`</td>
@@ -379,39 +359,6 @@ Prerequisites:
 <td>no</td>
 </tr>
 <tr>
-<td>ee_bintray_auth</td>
-<td>Bintray authentication for the Enterprise Edition download (Format: username:apikey)</td>
-<td>
-
-`string`</td>
-<td>
-
-`"placeholder"`</td>
-<td>no</td>
-</tr>
-<tr>
-<td>ee_license</td>
-<td>Enterprise Edition license key (JSON format)</td>
-<td>
-
-`string`</td>
-<td>
-
-`"placeholder"`</td>
-<td>no</td>
-</tr>
-<tr>
-<td>ee_pkg</td>
-<td>Filename of the Enterprise Edition package</td>
-<td>
-
-`string`</td>
-<td>
-
-`"kong-enterprise-edition-0.36-2.bionic.all.deb"`</td>
-<td>no</td>
-</tr>
-<tr>
 <td>enable_aurora</td>
 <td>Boolean to enable Aurora</td>
 <td>
@@ -431,17 +378,6 @@ Prerequisites:
 <td>
 
 `true`</td>
-<td>no</td>
-</tr>
-<tr>
-<td>enable_ee</td>
-<td>Boolean to enable Kong Enterprise Edition settings</td>
-<td>
-
-`string`</td>
-<td>
-
-`false`</td>
 <td>no</td>
 </tr>
 <tr>
@@ -621,64 +557,6 @@ n/a</td>
   "0.0.0.0/0"
 ]
 ```
-</td>
-<td>no</td>
-</tr>
-<tr>
-<td>manager_cidr_blocks</td>
-<td>Access to Kong Manager (Enterprise Edition only)</td>
-<td>
-
-`list(string)`</td>
-<td>
-
-```json
-[
-  "0.0.0.0/0"
-]
-```
-</td>
-<td>no</td>
-</tr>
-<tr>
-<td>manager_host</td>
-<td>Hostname to access Kong Manager (Enterprise Edition only)</td>
-<td>
-
-`string`
-</td>
-<td>
-  
-`"default`"
-</td>
-<td>no</td>
-</tr>
-<tr>
-<td>portal_cidr_blocks</td>
-<td>Access to Portal (Enterprise Edition only)</td>
-<td>
-
-`list(string)`</td>
-<td>
-
-```json
-[
-  "0.0.0.0/0"
-]
-```
-</td>
-<td>no</td>
-</tr>
-<tr>
-<td>portal_host</td>
-<td>Hostname to access Portal (Enterprise Edition only)</td>
-<td>
-
-`string`
-</td>
-<td>
-
-`"default`"
 </td>
 <td>no</td>
 </tr>
@@ -882,9 +760,9 @@ n/a</td>
 </tr>
 </table>
 
-Note: Admin, manager, and portal are Enterprise features. While the SSL
-certificate needs to be defined, it can be the same as the external and/or
-internal; however, no resources associated with it are created unless enabled.
+Note: While the SSL certificate needs to be defined, it can be the same as the
+external and/or internal; however, no resources associated with it are created
+unless enabled.
 
 ## Outputs
 
@@ -929,20 +807,6 @@ Create the resources in AWS:
     terraform init
     terraform plan -out kong.plan
     terraform apply kong.plan
-
-If installing Enterprise Edition, while resources are being provisioned login
-to the AWS console and navigate to:
-
-    Systems Manager -> Parameter Store
-
-Update the license key by editing the parameter (default value is "placeholder"):
- 
-    /[service]/[environment]/ee/license
-
-Update the Bintray authentication paramater (default value is "placeholder",
-format is "username:apikey")" for downloads:
-
-    /[service]/[environment]/ee/bintray-auth
 
 Alternatively, if your terraform files and state are secure, you can pass them 
 as variables to the module for a completely hands-off installation.
