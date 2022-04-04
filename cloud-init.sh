@@ -140,9 +140,6 @@ EOF
     for DIR in gui lib portal; do
         chown -R kong:kong /usr/local/kong/$DIR
     done
-else
-    # CE does not create the kong directory
-    mkdir /usr/local/kong
 fi
 
 chown root:kong /usr/local/kong
