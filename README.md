@@ -649,17 +649,6 @@ n/a</td>
 <td>no</td>
 </tr>
 <tr>
-<td>ssl_cert_admin</td>
-<td>SSL certificate domain name for the Kong Admin API HTTPS listener</td>
-<td>
-
-`string`</td>
-<td>
-
-n/a</td>
-<td>yes</td>
-</tr>
-<tr>
 <td>ssl_cert_external</td>
 <td>SSL certificate domain name for the external Kong Proxy HTTPS listener</td>
 <td>
@@ -673,28 +662,6 @@ n/a</td>
 <tr>
 <td>ssl_cert_internal</td>
 <td>SSL certificate domain name for the internal Kong Proxy HTTPS listener</td>
-<td>
-
-`string`</td>
-<td>
-
-n/a</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>ssl_cert_manager</td>
-<td>SSL certificate domain name for the Kong Manager HTTPS listener</td>
-<td>
-
-`string`</td>
-<td>
-
-n/a</td>
-<td>yes</td>
-</tr>
-<tr>
-<td>ssl_cert_portal</td>
-<td>SSL certificate domain name for the Dev Portal listener</td>
 <td>
 
 `string`</td>
@@ -792,9 +759,6 @@ Example main.tf:
       ec2_key_name          = "my-key"
       ssl_cert_external     = "*.domain.name"
       ssl_cert_internal     = "*.domain.name"
-      ssl_cert_admin        = "*.domain.name"
-      ssl_cert_manager      = "*.domain.name"
-      ssl_cert_portal       = "*.domain.name"
 
       tags = {
          Owner = "devops@domain.name"
